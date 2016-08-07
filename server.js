@@ -1,14 +1,25 @@
 const http = require('http');
+const url = require('url');
 
-const hostname = '127.0.0.1';
-const port = 3000;
 
-const server = http.createServer((req, res)=>{
-	res.statusCode = 200;
-	res.setHeader('ContentType', 'text/plain');
-	res.end('Hello World\n');
-});
+const start = (route)=>{
+	const hostname = '127.0.0.1';
+	const port = 3000;
+	const server = http.createServer((req, res)=>{
 
-server.listen(port, hostname, ()=>{
-	console.log('Server is running at http://'+hostname+':'+port+'/');
-})
+		var pathname = url.parse(req.url).pathname;
+		console.log('Request for '+pathname+' received.');
+
+		route(pathname);
+		
+		res.statusCode = 200;
+		res.setHeader('ContentType', 'text/plain');
+		res.end('Hello World\n');
+	});
+
+	server.listen(port, hostname, ()=>{
+		console.log('Server is running at http://'+hostname+':'+port+'/');
+	});
+};
+
+exports.start = start;
