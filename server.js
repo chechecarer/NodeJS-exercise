@@ -10,11 +10,13 @@ const start = (route, handle)=>{
 		var pathname = url.parse(req.url).pathname;
 		console.log('Request for '+pathname+' received.');
 
-		route(handle, pathname);
+		
 
 		res.statusCode = 200;
 		res.setHeader('ContentType', 'text/plain');
-		res.end('Hello World\n');
+		var content = route(handle, pathname);
+		res.write(content);
+		res.end();
 	});
 
 	server.listen(port, hostname, ()=>{
