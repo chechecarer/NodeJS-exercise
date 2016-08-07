@@ -2,7 +2,7 @@ const http = require('http');
 const url = require('url');
 
 
-const start = (route)=>{
+const start = (route, handle)=>{
 	const hostname = '127.0.0.1';
 	const port = 3000;
 	const server = http.createServer((req, res)=>{
@@ -10,8 +10,8 @@ const start = (route)=>{
 		var pathname = url.parse(req.url).pathname;
 		console.log('Request for '+pathname+' received.');
 
-		route(pathname);
-		
+		route(handle, pathname);
+
 		res.statusCode = 200;
 		res.setHeader('ContentType', 'text/plain');
 		res.end('Hello World\n');
